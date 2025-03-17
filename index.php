@@ -1,7 +1,6 @@
 <?php
 session_start();
-require_once './db/db.php'; // Asegura que tienes conexión a la base de datos
-
+require_once './db/db.php';
 ?>
 
 <!DOCTYPE HTML>
