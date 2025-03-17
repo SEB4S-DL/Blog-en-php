@@ -55,19 +55,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Ocupa toda la pantalla */
+            height: 100vh;
             margin: 0;
-            background-color: #f4f4f4; /* Color de fondo opcional */
+            background-color: #f4f4f4;
         }
 
         .bloqueRegister {
             width: 90%;
-            max-width: 400px; /* Limita el ancho */
+            max-width: 400px;
             background: white;
             padding: 20px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
-            border-radius: 8px; /* Bordes redondeados */
-            text-align: center; /* Centra el contenido */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
         }
     </style>
 

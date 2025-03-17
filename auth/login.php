@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../db/db.php'; // Conexión a la base de datos
+require_once '../db/db.php';
 
 $mensaje = "";
 
@@ -8,19 +8,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Asegúrate de seleccionar 'nombre' y 'apellidos'
+    
     $sql = "SELECT id, nombre, apellidos, email, password FROM usuarios WHERE email = '$email'";
     $result = mysqli_query($conexion, $sql);
 
     if ($result && mysqli_num_rows($result) == 1) {
         $usuario = mysqli_fetch_assoc($result);
         
-        // Verificar la contraseña
+        
         if (password_verify($password, $usuario['password'])) {
             $_SESSION['usuario'] = [
                 'id' => $usuario['id'],
-                'nombre' => $usuario['nombre'], // Asegurar que se guarda
-                'apellidos' => $usuario['apellidos'], // Asegurar que se guarda
+                'nombre' => $usuario['nombre'], 
+                'apellidos' => $usuario['apellidos'], 
                 'email' => $usuario['email']
             ];
             header("Location: ../index.php");
@@ -48,19 +48,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Ocupa toda la pantalla */
+            height: 100vh;
             margin: 0;
-            background-color: #f4f4f4; /* Color de fondo opcional */
+            background-color: #f4f4f4;
         }
 
         .bloqueLogin {
             width: 90%;
-            max-width: 400px; /* Limita el ancho */
+            max-width: 400px;
             background: white;
             padding: 20px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
-            border-radius: 8px; /* Bordes redondeados */
-            text-align: center; /* Centra el contenido */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
         }
     </style>
 </head>
@@ -69,7 +69,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="contenedorLogin">
         <div id="login" class="bloqueLogin">
             <h3>Inicia Sesión</h3>
-            <!-- Mostrar error si existe -->
             <?php if (!empty($mensaje)): ?>
                 <div class="alerta alerta-error">
                     <?= $mensaje; ?>

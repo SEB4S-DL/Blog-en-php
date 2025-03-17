@@ -13,8 +13,4 @@ if(mysqli_connect_errno()){
     echo "Conexion exitosa";
 }
 
-/* $sql = "Insert into usuarios Values (null, 'Esteban', 'Gomez', 'esteban@gmail.com', '12345', '2025-03-11' )";
-
-$insert = mysqli_query($conexion, $sql); */
-
 ?>
