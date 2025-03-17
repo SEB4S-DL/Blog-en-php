@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bind_param("sssss", $nombre, $apellidos, $email, $passwordHashed, $fecha);
 
             if ($stmt->execute()) {
-                $mensaje = "<div class='alerta alerta-exito'>Se registró correctamente. <a href='login.php'>Iniciar sesión</a></div>";
+                $mensaje = "<div class='alerta alerta-exito'>Se registró correctamente. <strong><a href='login.php'>Iniciar sesión</a></div></strong>";
             } else {
                 $mensaje = "<div class='alerta alerta-error'>Error al registrar usuario</div>";
             }
@@ -49,12 +49,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
     <title>Blog de Música</title>
+
+    <style>
+        .contenedorRegister {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Ocupa toda la pantalla */
+            margin: 0;
+            background-color: #f4f4f4; /* Color de fondo opcional */
+        }
+
+        .bloqueRegister {
+            width: 90%;
+            max-width: 400px; /* Limita el ancho */
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            border-radius: 8px; /* Bordes redondeados */
+            text-align: center; /* Centra el contenido */
+        }
+    </style>
+
+
 </head>
 
 <body>
-    <div class="contenedor">
-
-        <div id="register" class="bloque">
+    <div class="contenedorRegister">
+    
+        <div id="register" class="bloqueRegister">
             <h3>Registrarse</h3>
 
             <?= $mensaje; ?>

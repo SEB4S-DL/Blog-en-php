@@ -29,8 +29,18 @@ body{
     border-radius: 2px;
 }
 
+.alerta .a {
+    color: white;
+}
+
 .alerta-error{
     background: red;
+    color: white;
+}
+
+.alerta-exito{
+    background: green;
+    color: white;
 }
 
 .fecha{
@@ -182,6 +192,15 @@ body{
     width: 120px;
 }
 
+.bloqueLogin {
+    display:block;
+    width: 90%;
+    height: auto;
+    margin: 0px auto;
+    margin-bottom: 35px;
+    background: white;
+    padding: 15px;
+}
 
 label,
 input[type="text"],

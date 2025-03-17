@@ -1,35 +1,38 @@
 <?php
 session_start();
-require '../db/db.php'; 
+require_once '../db/db.php'; // Conexión a la base de datos
 
-$error = ""; // Variable para almacenar errores
+$mensaje = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    if (!empty($email) && !empty($password)) {
-        // Consultar usuario en la base de datos
-        $stmt = $conexion->prepare("SELECT id, email, password FROM usuarios WHERE email = ?");
-        $stmt->bind_param("s", $email); // 's' indica que es un string
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $usuario = $result->fetch_assoc();
+    // Asegúrate de seleccionar 'nombre' y 'apellidos'
+    $sql = "SELECT id, nombre, apellidos, email, password FROM usuarios WHERE email = '$email'";
+    $result = mysqli_query($conexion, $sql);
 
-        if ($usuario && password_verify($password, $usuario['password'])) {
-            // Inicio de sesión exitoso
-            $_SESSION['usuario_id'] = $usuario['id'];
-            $_SESSION['usuario_email'] = $usuario['email'];
-
-            header("Location: ../index.php"); // Redirige al index
+    if ($result && mysqli_num_rows($result) == 1) {
+        $usuario = mysqli_fetch_assoc($result);
+        
+        // Verificar la contraseña
+        if (password_verify($password, $usuario['password'])) {
+            $_SESSION['usuario'] = [
+                'id' => $usuario['id'],
+                'nombre' => $usuario['nombre'], // Asegurar que se guarda
+                'apellidos' => $usuario['apellidos'], // Asegurar que se guarda
+                'email' => $usuario['email']
+            ];
+            header("Location: ../index.php");
             exit();
         } else {
-            $error = "Usuario o contraseña incorrectos";
+            $mensaje = "Contraseña incorrecta.";
         }
     } else {
-        $error = "Todos los campos son obligatorios";
+        $mensaje = "El usuario no existe.";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -41,26 +44,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
     <title>Blog de Música</title>
     <style>
-        .container {
+        .contenedorLogin {
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh; /* Ocupa toda la pantalla */
+            margin: 0;
+            background-color: #f4f4f4; /* Color de fondo opcional */
         }
-        .alerta-error {
-            color: red;
+
+        .bloqueLogin {
+            width: 90%;
+            max-width: 400px; /* Limita el ancho */
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            border-radius: 8px; /* Bordes redondeados */
+            text-align: center; /* Centra el contenido */
         }
     </style>
 </head>
 
 <body>
-    <div class="contenedor">
-        <div id="login" class="bloque">
+    <div class="contenedorLogin">
+        <div id="login" class="bloqueLogin">
             <h3>Inicia Sesión</h3>
-            
             <!-- Mostrar error si existe -->
-            <?php if (!empty($error)): ?>
+            <?php if (!empty($mensaje)): ?>
                 <div class="alerta alerta-error">
-                    <?= $error; ?>
+                    <?= $mensaje; ?>
                 </div>
             <?php endif; ?>
 
