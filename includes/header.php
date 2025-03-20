@@ -24,5 +24,13 @@ $resultado = $conexion->query($sql);
                 </li>
             <?php endwhile; ?>
         </ul>
+
+        <div id="buscador" class="bloqueBuscar">
+                <h3>Buscar</h3>
+                <form action="buscar.php" method="POST"> 
+                    <input type="text" name="busqueda" />
+                    <input type="submit" value="Buscar" />
+                </form>
+            </div>
     </nav>
 </header>
