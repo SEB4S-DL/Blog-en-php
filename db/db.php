@@ -1,8 +1,7 @@
 <?php
-
 $hostname = "localhost"; 
 $username = "root"; 
-$password = "canelA2006."; 
+$password = ""; 
 $database = "blogmusica";
 
 

@@ -11,7 +11,6 @@ require_once './db/db.php';
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
 </head>
 <body>
-   
     <?php include 'includes/header.php'; ?>
     
     <div id="contenedor">
@@ -32,9 +31,11 @@ require_once './db/db.php';
                 <!-- Mostrar si está autenticado -->
                 <div id="usuario-logueado" class="bloque">
                     <h3>Bienvenido, <?= $_SESSION['usuario']['nombre'] . " " . $_SESSION['usuario']['apellidos']; ?></h3>
+
                     <a href="./pages/entries.php" class="boton boton-verde">Crear entradas</a>
                     <a href="./pages/categories.php" class="boton">Crear categoría</a>
                     <a href="./pages/myData.php" class="boton boton-naranja">Mis datos</a>
+
                     <a href="./auth/logout.php" class="boton boton-rojo">Cerrar sesión</a>
                 </div>
             <?php endif; ?>
@@ -42,6 +43,7 @@ require_once './db/db.php';
         </aside>
         
         <!-- CAJA PRINCIPAL -->
+
         <!-- CAJA PRINCIPAL -->
         <?php
             require_once './db/db.php';
