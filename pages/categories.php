@@ -41,7 +41,6 @@ $resultado = $conexion->query($sql);
 </head>
 <body>
 
-
 <?php
 // Mostrar mensaje si existe
 if (isset($_SESSION['mensaje'])) {

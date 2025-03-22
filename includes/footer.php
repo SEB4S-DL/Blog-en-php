@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+<footer id="pie">
+        <p>Desarrollado por KCKS &copy; <?= date('Y'); ?></p>
+</footer>
+=======
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,3 +18,4 @@
         </footer>
 </body>
 </html>
+>>>>>>> 45d1d96d9656e5540300150d3df20025e712edb3
