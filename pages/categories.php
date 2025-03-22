@@ -41,7 +41,6 @@ $resultado = $conexion->query($sql);
 </head>
 <body>
 
-<h2>Agregar Nueva Categoría</h2>
 <?php
 // Mostrar mensaje si existe
 if (isset($_SESSION['mensaje'])) {
@@ -50,6 +49,7 @@ if (isset($_SESSION['mensaje'])) {
 }
 ?>
 <form method="POST">
+    <h2>Agregar Nueva Categoría</h2>
     Nombre de la Categoría: <input type="text" name="nombre_categoria" required>
     <button type="submit">Agregar</button>
 </form>
