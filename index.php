@@ -11,37 +11,7 @@ require_once './db/db.php';
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
 </head>
 <body>
-    <!-- CABECERA -->
-    <header id="cabecera">
-        <!-- LOGO -->
-        <div id="logo">
-            <a href="index.php">
-                Blog de Música
-            </a>
-        </div>
-        
-        <!-- MENU -->
-        <nav id="menu">
-            <ul>
-                <li>
-                    <a href="index.php">Inicio</a>
-                </li>
-                <li>
-                    <a href="index.php">{Categorias}</a>
-                </li>
-            </ul>
-
-            <div id="buscador" class="bloqueBuscar">
-                <h3>Buscar</h3>
-                <form action="buscar.php" method="POST"> 
-                    <input type="text" name="busqueda" />
-                    <input type="submit" value="Buscar" />
-                </form>
-            </div>
-        </nav>
-        
-        <div class="clearfix"></div>
-    </header>
+    <?php include 'includes/header.php'; ?>
     
     <div id="contenedor">
         <!-- BARRA LATERAL -->
@@ -61,9 +31,11 @@ require_once './db/db.php';
                 <!-- Mostrar si está autenticado -->
                 <div id="usuario-logueado" class="bloque">
                     <h3>Bienvenido, <?= $_SESSION['usuario']['nombre'] . " " . $_SESSION['usuario']['apellidos']; ?></h3>
-                    <a href="crear-entradas.php" class="boton boton-verde">Crear entradas</a>
-                    <a href="crear-categoria.php" class="boton">Crear categoría</a>
-                    <a href="mis-datos.php" class="boton boton-naranja">Mis datos</a>
+
+                    <a href="./pages/entries.php" class="boton boton-verde">Crear entradas</a>
+                    <a href="./pages/categories.php" class="boton">Crear categoría</a>
+                    <a href="./pages/myData.php" class="boton boton-naranja">Mis datos</a>
+
                     <a href="./auth/logout.php" class="boton boton-rojo">Cerrar sesión</a>
                 </div>
             <?php endif; ?>
@@ -71,49 +43,63 @@ require_once './db/db.php';
         </aside>
         
         <!-- CAJA PRINCIPAL -->
+
+        <!-- CAJA PRINCIPAL -->
+        <?php
+            require_once './db/db.php';
+
+            // Consulta para obtener las entradas
+            $sql = "SELECT id, titulo, descripcion, categoria_id, fecha FROM entradas ORDER BY fecha DESC LIMIT 3";
+            $resultado = mysqli_query($conexion, $sql);
+
+            // Verificar si hay resultados
+            // Consulta para obtener las entradas con el nombre del autor
+            $sql = "SELECT e.id, e.titulo, e.descripcion, e.fecha, u.nombre AS autor 
+            FROM entradas e 
+            JOIN usuarios u ON e.usuario_id = u.id 
+            ORDER BY e.fecha DESC 
+            LIMIT 3";
+
+            $resultado = mysqli_query($conexion, $sql);
+
+            $entradas = [];
+            if ($resultado && mysqli_num_rows($resultado) > 0) {
+                while ($fila = mysqli_fetch_assoc($resultado)) {
+                $entradas[] = $fila;
+                }
+            }
+        ?>
         <div id="principal">
             <h1>Últimas entradas</h1>
-            <article class="entrada">
-                <a href="entrada.php?id=<?=$entrada['id']?>">
-                    <h2>{Titulo Entrada}</h2>
-                    <span class="fecha">{Categoria} | {Fecha de publicación}</span>
-                    <p>
-                        {Descripcion de entrada}
-                    </p>
-                </a>
-            </article>
-            
-            <article class="entrada">
-                <a href="entrada.php?id=<?=$entrada['id']?>">
-                    <h2>{Titulo Entrada}</h2>
-                    <span class="fecha">{Categoria} | {Fecha de publicación}</span>
-                    <p>
-                        {Descripcion de entrada}
-                    </p>
-                </a>
-            </article>
-            
-            <article class="entrada">
-                <a href="entrada.php?id=<?=$entrada['id']?>">
-                    <h2>{Titulo Entrada}</h2>
-                    <span class="fecha">{Categoria} | {Fecha de publicación}</span>
-                    <p>
-                        {Descripcion de entrada}
-                    </p>
-                </a>
-            </article>
-            
+
+            <?php if (!empty($entradas)): ?>
+                <?php foreach ($entradas as $entrada): ?>
+                    <article class="entrada">
+                        <a href="entrada.php?id=<?= $entrada['id'] ?>">
+                            <h2><?= htmlspecialchars($entrada['titulo']) ?></h2>
+                            <span class="fecha">
+                                <?= htmlspecialchars($entrada['autor']) ?> | 
+                                <?= htmlspecialchars($entrada['fecha']) ?>
+                            </span>
+                            <p>
+                                <?= htmlspecialchars(substr($entrada['descripcion'], 0, 200)) ?>...
+                                <a href="pages/verEntrada.php?id=<?= $entrada['id'] ?>">Leer más</a>
+                            </p>
+                        </a>
+                    </article>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No hay entradas disponibles.</p>
+            <?php endif; ?>
+
             <div id="ver-todas">
-                <a href="entradas.php">Ver todas las entradas</a>
+                <a href="pages/entradas.php">Ver todas las entradas</a>
             </div>
-        </div> <!--fin principal-->
-        
+
+        </div> <!-- fin principal -->
     </div> <!-- fin contenedor -->
     
-    <!-- PIE DE PÁGINA -->
-    <footer id="pie">
-        <p>Desarrollado por KCKS &copy; <?= date('Y'); ?></p>
-    </footer>
+    <?php include 'includes/footer.php'; ?>
     
 </body>
 </html>
